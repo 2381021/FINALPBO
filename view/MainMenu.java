@@ -72,7 +72,7 @@ public class MainMenu {
                 System.out.println("Waktu Selesai: " + order.getDaysToComplete() + " hari");
                 System.out.println("Metode Pembayaran: " + order.getPaymentMethod());
                 System.out.println("Total Harga: Rp. " + order.getTotalPrice());
-                System.out.println("Rating: " + order.getRating() + " (Ulasan: " + order.getReview() + ")");
+                System.out.println("Rating User: " + order.getRating() + " (Ulasan User: " + order.getReview() + ")");
                 System.out.println("====================================");
             }
         }
