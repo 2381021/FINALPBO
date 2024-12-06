@@ -1,4 +1,4 @@
-package entity;
+package jokiOrderApp.entity;
 
 public class Order {
     private String customerName;
@@ -13,11 +13,9 @@ public class Order {
     private double totalPrice;
     private boolean voucherApplied;
     private int rating;  // Field for rating
-    private String review;  // Added field for review
+    private String review;  // Field for review
 
-    // Getters and setters for all other fields
-
-
+    // Getters and setters for all fields
 
     public String getCustomerName() {
         return customerName;
@@ -27,11 +25,11 @@ public class Order {
         this.customerName = customerName;
     }
 
-    public String getUserId() {
+    public String getUserId() { // Corrected method name
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(String userId) { // Corrected method name
         this.userId = userId;
     }
 
@@ -113,14 +111,14 @@ public class Order {
     }
 
     public void setRating(int rating) {
-        if (rating >= 1 && rating <= 5) {  // Optional: Ensure rating is between 1 and 5
+        if (rating >= 1 && rating <= 5) {  // Ensure rating is between 1 and 5
             this.rating = rating;
         } else {
-            System.out.println("Rating harus antara 1 dan 5.");
+            System.out.println("Rating harus antara 1 dan 5."); // Message in Indonesian
         }
     }
 
-    // Getter and setter for review (new feature)
+    // Getter and setter for review
     public String getReview() {
         return review;
     }

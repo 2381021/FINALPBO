@@ -1,4 +1,4 @@
-package entity;
+package jokiOrderApp.entity;
 
 public enum Game {
     PUBG,
