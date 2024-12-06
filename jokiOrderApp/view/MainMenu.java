@@ -1,31 +1,20 @@
-package jokiOrderApp.view;
+package view;
 
-import jokiOrderApp.entity.Order;
-import jokiOrderApp.service.OrderService;
-import jokiOrderApp.service.VoucherService;
-import org.springframework.stereotype.Component;
+import entity.Order;
+import service.OrderService;
+import service.VoucherService;
 
 import java.util.List;
-import java.util.Scanner;
 
-@Component
-public class MainMenu implements MainMenuInterface{
+public class MainMenu {
     private final OrderService orderService;
     private final VoucherService voucherService;
-
-    private static final Scanner scanner = new Scanner(System.in);
-
-    private static String input(String prompt) {
-        System.out.print(prompt + " : ");
-        return scanner.nextLine();
-    }
 
     public MainMenu(OrderService orderService, VoucherService voucherService) {
         this.orderService = orderService;
         this.voucherService = voucherService;
     }
 
-    @Override
     public void showMenu() {
         while (true) {
             System.out.println("==== MENU UTAMA ====");
@@ -36,7 +25,7 @@ public class MainMenu implements MainMenuInterface{
             System.out.println("5. Batal Pemesanan");
             System.out.println("6. Keluar");
 
-            String choice = input("Pilih menu");
+            String choice = InputHelper.input("Pilih menu");
 
             switch (choice) {
                 case "1":
@@ -93,10 +82,10 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("==== BUAT PESANAN BARU ====");
 
         // Pendaftaran Akun
-        String name = input("Nama Pelanggan");
-        String userId = input("ID User");
-        String account = input("Akun");
-        String phone = input("No. Telp");
+        String name = InputHelper.input("Nama Pelanggan");
+        String userId = InputHelper.input("ID User");
+        String account = InputHelper.input("Akun");
+        String phone = InputHelper.input("No. Telp");
 
         // Create a new order object
         Order order = new Order();
@@ -110,7 +99,7 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("1. PUBG");
         System.out.println("2. Mobile Legends");
         System.out.println("3. Free Fire");
-        String gameChoice = input("Pilih game");
+        String gameChoice = InputHelper.input("Pilih game");
         switch (gameChoice) {
             case "1":
                 order.setGame("PUBG");
@@ -131,11 +120,11 @@ public class MainMenu implements MainMenuInterface{
         chooseTargetRank(order);
 
         // Request ke Joki
-        String request = input("Masukkan request khusus untuk joki (optional)");
+        String request = InputHelper.input("Masukkan request khusus untuk joki (optional)");
         order.setRequest(request);
 
         // Tentukan Waktu Selesai
-        int daysToComplete = Integer.parseInt(input("Berapa hari untuk menyelesaikan pesanan?"));
+        int daysToComplete = Integer.parseInt(InputHelper.input("Berapa hari untuk menyelesaikan pesanan?"));
         order.setDaysToComplete(daysToComplete);
 
         // Pilih Metode Pembayaran
@@ -143,7 +132,7 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("1. Transfer Bank");
         System.out.println("2. E-Wallet");
         System.out.println("3. Kartu Kredit");
-        String paymentChoice = input("Pilih metode pembayaran");
+        String paymentChoice = InputHelper.input("Pilih metode pembayaran");
         switch (paymentChoice) {
             case "1":
                 order.setPaymentMethod("Transfer Bank");
@@ -163,7 +152,7 @@ public class MainMenu implements MainMenuInterface{
         // Apply Voucher
         applyVoucher(order);
 
-        // Create order in the jokiOrderApp.service
+        // Create order in the service
         orderService.createOrder(order);
 
         // Show success message
@@ -190,7 +179,7 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("5. Edit Waktu Selesai");
         System.out.println("6. Edit Metode Pembayaran");
         System.out.println("7. Batalkan Edit");
-        String editChoice = input("Pilih yang ingin diubah");
+        String editChoice = InputHelper.input("Pilih yang ingin diubah");
 
         switch (editChoice) {
             case "1":
@@ -198,7 +187,7 @@ public class MainMenu implements MainMenuInterface{
                 System.out.println("1. PUBG");
                 System.out.println("2. Mobile Legends");
                 System.out.println("3. Free Fire");
-                String gameChoice = input("Pilih game");
+                String gameChoice = InputHelper.input("Pilih game");
                 switch (gameChoice) {
                     case "1":
                         order.setGame("PUBG");
@@ -214,10 +203,10 @@ public class MainMenu implements MainMenuInterface{
                 }
                 break;
             case "2":
-                String newName = input("Nama baru");
-                String newUserId = input("ID User baru");
-                String newAccount = input("Akun baru");
-                String newPhone = input("No. Telp baru");
+                String newName = InputHelper.input("Nama baru");
+                String newUserId = InputHelper.input("ID User baru");
+                String newAccount = InputHelper.input("Akun baru");
+                String newPhone = InputHelper.input("No. Telp baru");
                 order.setCustomerName(newName);
                 order.setUserId(newUserId);
                 order.setAccount(newAccount);
@@ -227,11 +216,11 @@ public class MainMenu implements MainMenuInterface{
                 chooseTargetRank(order);
                 break;
             case "4":
-                String newRequest = input("Request baru ke Joki");
+                String newRequest = InputHelper.input("Request baru ke Joki");
                 order.setRequest(newRequest);
                 break;
             case "5":
-                int newDays = Integer.parseInt(input("Jumlah hari baru untuk selesai"));
+                int newDays = Integer.parseInt(InputHelper.input("Jumlah hari baru untuk selesai"));
                 order.setDaysToComplete(newDays);
                 break;
             case "6":
@@ -239,7 +228,7 @@ public class MainMenu implements MainMenuInterface{
                 System.out.println("1. Transfer Bank");
                 System.out.println("2. E-Wallet");
                 System.out.println("3. Kartu Kredit");
-                String paymentChoice = input("Pilih metode pembayaran");
+                String paymentChoice = InputHelper.input("Pilih metode pembayaran");
                 switch (paymentChoice) {
                     case "1":
                         order.setPaymentMethod("Transfer Bank");
@@ -261,8 +250,8 @@ public class MainMenu implements MainMenuInterface{
                 System.out.println("Pilihan tidak valid, coba lagi.");
                 editOrder();
         }
-        orderService.updateOrder(order);
-        System.out.println("Pesanan berhasil diedit dan disimpan!");
+
+        System.out.println("Pesanan berhasil diedit!");
     }
 
     private void cancelOrder() {
@@ -277,7 +266,7 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("1. Ya, batalkan pesanan");
         System.out.println("2. Tidak, kembali ke menu");
 
-        String cancelChoice = input("Pilih opsi");
+        String cancelChoice = InputHelper.input("Pilih opsi");
 
         switch (cancelChoice) {
             case "1":
@@ -298,7 +287,7 @@ public class MainMenu implements MainMenuInterface{
         System.out.println("1. +1 Rank (Rp. 15.000)");
         System.out.println("2. +2 Rank (Rp. 30.000)");
         System.out.println("3. +3 Rank (Rp. 45.000)");
-        String rankChoice = input("Pilih target rank");
+        String rankChoice = InputHelper.input("Pilih target rank");
 
         switch (rankChoice) {
             case "1":
@@ -321,7 +310,7 @@ public class MainMenu implements MainMenuInterface{
 
     private void applyVoucher(Order order) {
         System.out.println("==== MASUKKAN KODE VOUCHER ====");
-        String voucherCode = input("Masukkan kode voucher (contoh: MTJ)");
+        String voucherCode = InputHelper.input("Masukkan kode voucher (contoh: MTJ)");
 
         if (voucherService.applyVoucher(voucherCode)) {
             order.setTotalPrice(0); // Diskon 100%
@@ -340,13 +329,11 @@ public class MainMenu implements MainMenuInterface{
             return;
         }
 
-        String rating = input("Berikan rating (1-5)");
-        String review = input("Tulis ulasan");
+        String rating = InputHelper.input("Berikan rating (1-5)");
+        String review = InputHelper.input("Tulis ulasan");
 
         order.setRating(Integer.parseInt(rating));
         order.setReview(review);
-
-        orderService.editReview(order);
 
         System.out.println("Terima kasih atas ulasan Anda!");
     }
